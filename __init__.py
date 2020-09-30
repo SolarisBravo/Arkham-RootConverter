@@ -22,11 +22,11 @@
 
 bl_info = {
     "name": "Arkham/Root Motion Converter",
-    "author": "Solaris",
+    "author": "Enzio Probst, Solaris",
     "version": (1, 0, 0),
     "blender": (2, 90, 0),
     "location": "3D View > UI (Right Panel) > Arkham Tab",
-    "description": ("Script to bake Root motion for ArkhamaAnimations"),
+    "description": ("Script to bake Root motion for Arkhama Animations"),
     "warning": "",  # used for warning icon and text in addons panel
     "wiki_url": "https://github.com/enziop/mixamo_converter/wiki",
     "tracker_url": "https://github.com/enziop/mixamo_converter/issues" ,
