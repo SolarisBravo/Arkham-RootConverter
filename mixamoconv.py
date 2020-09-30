@@ -422,9 +422,8 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
     return 1
 
 
-def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0,
-                      restoffset=(0, 0, 0), hipname='', fixbind=True, apply_rotation=True, apply_scale=False,
-                      b_remove_namespace=False, b_unreal_bones=False, add_leaf_bones=False, knee_offset=(0, 0, 0), ignore_leaf_bones=True, automatic_bone_orientation=True, quaternion_clean_pre=False, quaternion_clean_post=False, foot_bone_workaround=False, discover_recursive=True):
+def batch_hip_to_root(source_dir, dest_dir, armature, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0, restoffset=(0, 0, 0),
+                hipname='', fixbind=True, apply_rotation=True, apply_scale=False, quaternion_clean_pre=False, quaternion_clean_post=False, foot_bone_workaround=False, discover_recursive=True):
     """Batch Convert MixamoRigs"""
     
     source_dir = Path(source_dir)
@@ -538,9 +537,7 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
             dest_dir.mkdir(parents=True)
         output_file = dest_dir.joinpath(file.stem + ".fbx")
         bpy.ops.export_scene.fbx(filepath=str(output_file),
-                                 use_selection=False,
                                  apply_scale_options='FBX_SCALE_ALL',
-                                 add_leaf_bones=add_leaf_bones,
                                  mesh_smooth_type='FACE')
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
