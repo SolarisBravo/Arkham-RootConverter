@@ -446,10 +446,10 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
                       b_remove_namespace=b_remove_namespace, b_unreal_bones=b_unreal_bones, add_leaf_bones=add_leaf_bones, knee_offset=knee_offset, ignore_leaf_bones=ignore_leaf_bones, automatic_bone_orientation=automatic_bone_orientation, quaternion_clean_pre=quaternion_clean_pre, quaternion_clean_post=quaternion_clean_post, foot_bone_workaround=foot_bone_workaround, discover_recursive=discover_recursive)
         file_ext = file.suffix
         file_loader = {
-            ".fbx": lambda filename: bpy.ops.import_scene.fbx(
+            ".FBX": lambda filename: bpy.ops.import_scene.fbx(
                 filepath=str(filename), axis_forward='-Z',
                 axis_up='Y', directory="",
-                filter_glob="*.fbx", ui_tab='MAIN',
+                filter_glob="*.FBX", ui_tab='MAIN',
                 use_manual_orientation=False, global_scale=1.0,
                 bake_space_transform=False,
                 use_custom_normals=True,

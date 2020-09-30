@@ -4,6 +4,10 @@ Blender 2.90+ is required.
 
 Forked from Enzio Probst's Mixamo converter.
 
+## Notes
+
+#### Files must end in '.fbx', NOT '.FBX' for batch conversion to work! Will be fixed at a later time.
+
 ## Installation
 * Download Blender 2.90 from https://www.blender.org/download/
 * Download this repository as a ZIP file
