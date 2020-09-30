@@ -21,7 +21,7 @@ The Addon UI is located in the UI properties panel, which can be opened using th
 Only rotation along the Up Axis is transfered to the root
 
 ##### [Use Z]:
-Enable this for jumping/climbing/anything with a vertical dimension. Would reccomend disabling for all others, although it won't cause any issues unless the animation is cancelled mid-playback.
+Enable for jumping/climbing/anything with a vertical dimension - disable this if you encounter issues with characters dropping below the floor or floating.
 
 #### [Use X] [Use Y]:
 Those can be disabled to prevent movement of root on groundplane.
