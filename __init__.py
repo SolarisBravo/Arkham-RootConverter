@@ -21,12 +21,12 @@
 '''
 
 bl_info = {
-    "name": "Mixamo Converter",
-    "author": "Enzio Probst",
-    "version": (1, 2, 1),
-    "blender": (2, 80, 0),
-    "location": "3D View > UI (Right Panel) > Mixamo Tab",
-    "description": ("Script to bake Root motion for Mixamo Animations"),
+    "name": "Arkham/Root Motion Converter",
+    "author": "Solaris",
+    "version": (1, 0, 0),
+    "blender": (2, 90, 0),
+    "location": "3D View > UI (Right Panel) > Arkham Tab",
+    "description": ("Script to bake Root motion for ArkhamaAnimations"),
     "warning": "",  # used for warning icon and text in addons panel
     "wiki_url": "https://github.com/enziop/mixamo_converter/wiki",
     "tracker_url": "https://github.com/enziop/mixamo_converter/issues" ,
@@ -71,10 +71,6 @@ class MixamoPropertyGroup(bpy.types.PropertyGroup):
     use_z: bpy.props.BoolProperty(
         name="Use Z",
         description="If enabled, vertical motion is transfered to RootBone",
-        default=True)
-    on_ground: bpy.props.BoolProperty(
-        name="On Ground",
-        description="If enabled, root bone is on ground and only moves up at jumps",
         default=True)
 
     use_rotation: bpy.props.BoolProperty(
@@ -132,19 +128,12 @@ class MixamoPropertyGroup(bpy.types.PropertyGroup):
         default=True)
 
     hipname: bpy.props.StringProperty(
-        name="Hip Name",
-        description="Additional Hipname to search for if not MixamoRig",
+        name="Root Name",
+        description="Additional Hipname to search for if not Bip01",
         maxlen = 256,
-        default = "",
+        default = "Bip01",
         subtype='NONE')
-    b_remove_namespace: bpy.props.BoolProperty(
-        name="Remove Namespace",
-        description="Removes Naespaces from objects and bones",
-        default=True)
-    b_unreal_bones: bpy.props.BoolProperty(
-        name="Use Unreal Engine bone schema",
-        description="Renames bones to match unreal engine schema",
-        default=False)
+        
     fixbind: bpy.props.BoolProperty(
         name="Fix Bind",
         description="If enabled, adds a dummy mesh and binds it, to prevent loss of bindpose when exporting fbx",
@@ -165,29 +154,6 @@ class MixamoPropertyGroup(bpy.types.PropertyGroup):
         name="Quaternion Clean Post",
         description="Performs quaternion cleanup after conversion",
         default=True)
-    foot_bone_workaround: bpy.props.BoolProperty(
-        name="Foot Bone Workaround",
-        description="Attempts to fix twisting of the foot bones",
-        default=False)
-
-
-class OBJECT_OT_RemoveNamespace(bpy.types.Operator):
-    '''Button/Operator for removing namespaces from selection'''
-    bl_idname = "mixamo.remove_namespace"
-    bl_label = ""
-    bl_description = "Removes all namespaces of selection (for single Convert)"
-
-    def execute(self, context):
-        mixamo = context.scene.mixamo
-        if not bpy.context.object:
-            self.report({'ERROR_INVALID_INPUT'}, "Error: no object selected.")
-            return{'CANCELLED'}
-        for obj in bpy.context.selected_objects:
-            status = mixamoconv.remove_namespace(obj)
-            if status == -1:
-                self.report({'ERROR_INVALID_INPUT'}, 'Invalid Object in selection')
-                return{'CANCELLED' }
-        return{'FINISHED'}
 
 class OBJECT_OT_UseBlenderBoneNames(bpy.types.Operator):
     '''Button/Operator for renaming bones to match unreal skeleton'''
@@ -231,7 +197,7 @@ class OBJECT_OT_ConvertSingle(bpy.types.Operator):
             use_rotation = mixamo.use_rotation,
             scale = mixamo.scale,
             restoffset = mixamo.restoffset,
-            hipname = mixamo.hipname.decode('UTF-8'),
+            hipname = mixamo.hipname,
             fixbind = mixamo.fixbind,
             apply_rotation = mixamo.apply_rotation,
             apply_scale = mixamo.apply_scale,
@@ -381,11 +347,11 @@ class OBJECT_OT_ConvertBatch(bpy.types.Operator):
 
 class MIXAMOCONV_VIEW_3D_PT_mixamoconv(bpy.types.Panel):
     """Creates a Tab in the Toolshelve in 3D_View"""
-    bl_label = "Mixamo Rootbaker"
+    bl_label = "Batman: Arkham Converter"
     bl_idname = "MIXAMOCONV_VIEW_3D_PT_mixamoconv"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = "Mixamo"
+    bl_category = "Arkham"
 
     def draw(self, context):
         layout = self.layout
@@ -420,16 +386,6 @@ class MIXAMOCONV_VIEW_3D_PT_mixamoconv(bpy.types.Panel):
             box.label(text="Bone names:")
             box.prop(scene.mixamo, "hipname")
 
-            row = box.row()
-            row.prop(scene.mixamo, 'b_remove_namespace', text="Remove Namespaces")
-            row.operator("mixamo.remove_namespace", icon='PLAY')
-            row.enabled = not scene.mixamo.b_unreal_bones
-
-            row = box.row()
-            row.prop(scene.mixamo, 'b_unreal_bones', text="Use Unreal Engine bone names")
-            row.operator("mixamo.unreal_bones", icon='PLAY')
-            row.enabled = not scene.mixamo.b_remove_namespace
-
             box.label(text="Fixes:")
             row = box.row()
             row.prop(scene.mixamo, "fixbind")
@@ -442,26 +398,6 @@ class MIXAMOCONV_VIEW_3D_PT_mixamoconv(bpy.types.Panel):
             row.prop(scene.mixamo, "apply_scale")
             if scene.mixamo.apply_scale:
                 row.prop(scene.mixamo, "scale")
-
-            row = box.row()
-            row.prop(scene.mixamo, "experimental", toggle=True, icon='ERROR')
-            if scene.mixamo.experimental:
-                row = box.row()
-                row.operator("mixamo.convertsingle_stepwise")
-                split = box.split()
-                col = split.column()
-                col.prop(scene.mixamo, "restoffset")
-
-                col.operator("mixamo.apply_restoffset")
-                col = split.column()
-                col.prop(scene.mixamo, "knee_offset")
-
-                row = col.row()
-                row.prop(scene.mixamo, "knee_bones")
-                row.enabled = not scene.mixamo.b_remove_namespace and not scene.mixamo.b_unreal_bones
-
-                row = box.row()
-                row.prop(scene.mixamo, "foot_bone_workaround")
 
         # input and output paths for batch conversion
         box = layout.box()
@@ -492,7 +428,6 @@ class MIXAMOCONV_VIEW_3D_PT_mixamoconv(bpy.types.Panel):
         status_row = box.row()
 
 classes = (
-    OBJECT_OT_RemoveNamespace,
     OBJECT_OT_UseBlenderBoneNames,
     OBJECT_OT_ConvertSingle,
     OBJECT_OT_ConvertSingleStepwise,
