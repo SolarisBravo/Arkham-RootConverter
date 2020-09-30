@@ -34,7 +34,7 @@ Makes sure, that there are no unneeded rotations on the character or its root bo
 Applies the scale of the character and its rig - not reccomended, causes distortion with umodified Arkham models.
 
 
-### Batch Conversion:
+## Batch Conversion:
 * Here you can specify an Input- and Outputpath for Batchconversion
 * the output files will have the same names as the input files, existing files will be overwritten
 * The [force overwrite] option is only for the case where Input- and Outputlocation are the same
