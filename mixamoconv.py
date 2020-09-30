@@ -48,7 +48,14 @@ def remove_namespace(s=''):
         s.name = remove_namespace(s.name)
         return 1
     return -1
-
+    
+def resetscale(root):	
+    bpy.ops.object.select_all(action='DESELECT')	
+    root.select_set(True)	
+    bpy.context.view_layer.objects.active = root	
+    bpy.ops.object.transform_apply(location = True, scale = False, rotation = True)	
+    root.select_set(False)	
+    root.scale = (1, 1, 1)
 
 def rename_bones(s='', t='unreal'):
     """function for renaming the armature bones to a target skeleton"""
@@ -234,6 +241,7 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
     root.name = "root"
     root.rotation_mode = 'QUATERNION'
     framerange = root.animation_data.action.frame_range
+    resetscale(root)
 
     for hipname in ('Hips', 'mixamorig:Hips', 'mixamorig_Hips', 'Pelvis', hipname):
         hips = root.pose.bones.get(hipname)

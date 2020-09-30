@@ -4,6 +4,10 @@ Blender 2.90+ is required.
 
 Forked from Enzio Probst's Mixamo converter.
 
+## Notes
+* If you're having issues where the mesh appears "squished", make sure you run the base mesh through my converter.
+* Inside UE4, *always* set "Root Motion Root Lock" to "Anim First Frame".
+
 ## Installation
 * Download Blender 2.90 from https://www.blender.org/download/
 * Download this repository as a ZIP file
