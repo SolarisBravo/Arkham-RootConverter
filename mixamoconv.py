@@ -233,7 +233,7 @@ class Status:
         return str(self.msg)
 
 def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0, restoffset=(0, 0, 0),
-                hipname='', fixbind=True, apply_rotation=True, apply_scale=False, quaternion_clean_pre=True, quaternion_clean_post=True, foot_bone_workaround=False):
+                hipname='', fixbind=True, apply_rotation=True, apply_scale=False, quaternion_clean_pre=False, quaternion_clean_post=False, foot_bone_workaround=False):
     """function to bake hipmotion to RootMotion in MixamoRigs"""
 
     yield Status("starting hip_to_root")
@@ -424,7 +424,7 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
 
 def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0,
                       restoffset=(0, 0, 0), hipname='', fixbind=True, apply_rotation=True, apply_scale=False,
-                      b_remove_namespace=True, b_unreal_bones=False, add_leaf_bones=False, knee_offset=(0, 0, 0), ignore_leaf_bones=True, automatic_bone_orientation=True, quaternion_clean_pre=True, quaternion_clean_post=True, foot_bone_workaround=False, discover_recursive=True):
+                      b_remove_namespace=False, b_unreal_bones=False, add_leaf_bones=False, knee_offset=(0, 0, 0), ignore_leaf_bones=True, automatic_bone_orientation=True, quaternion_clean_pre=False, quaternion_clean_post=False, foot_bone_workaround=False, discover_recursive=True):
     """Batch Convert MixamoRigs"""
     
     source_dir = Path(source_dir)
