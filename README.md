@@ -4,12 +4,6 @@ Blender 2.90+ is required.
 
 Forked from Enzio Probst's Mixamo converter.
 
-## Notes
-
-#### Files must end in '.fbx', NOT '.FBX' for batch conversion to work! Will be fixed at a later time, you can copy paste the following code into a .bat file to automate the renaming process:
-
-#### 'FOR /R %x IN (*.FBX) DO ren "%x" *.fbx'    -    Make sure the .bat file is located next to your .fbx files.
-
 ## Installation
 * Download Blender 2.90 from https://www.blender.org/download/
 * Download this repository as a ZIP file
