@@ -2,6 +2,8 @@
 This plugin generates proper root motion tracks for animations extracted from Rocksteady's Batman: Arkham series, allowing them to function properly within Unreal Engine 4
 Blender 2.90+ required.
 
+Forked from Enzio Probst's Mixamo converter.
+
 ### It can
 * convert single .FBX animations if they are previously imported by the user
 * Batch convert all input FBX files from a folder to a new location
