@@ -48,6 +48,14 @@ def remove_namespace(s=''):
         s.name = remove_namespace(s.name)
         return 1
     return -1
+    
+def resetscale(root):
+    bpy.ops.object.select_all(action='DESELECT')
+    root.select_set(True)
+    bpy.context.view_layer.objects.active = root
+    bpy.ops.object.transform_apply(location = True, scale = False, rotation = True)
+    root.select_set(False)
+    root.scale = (1, 1, 1)
 
 
 def rename_bones(s='', t='unreal'):
@@ -230,11 +238,11 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
     """function to bake hipmotion to RootMotion in MixamoRigs"""
 
     yield Status("starting hip_to_root")
-
     root = armature
     root.name = "root"
     root.rotation_mode = 'QUATERNION'
     framerange = root.animation_data.action.frame_range
+    resetscale(root)
 
     for hipname in ('Hips', 'mixamorig:Hips', 'mixamorig_Hips', 'Pelvis', hipname):
         hips = root.pose.bones.get(hipname)
@@ -388,7 +396,7 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
 
     bpy.ops.object.delete(use_global=False)
     yield Status("bakers deleted")
-
+    
     # bind armature to dummy mesh if it doesn't have any
     if fixbind:
         bindmesh = None
@@ -422,9 +430,6 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
     
     source_dir = Path(source_dir)
     dest_dir = Path(dest_dir)
-
-    bpy.context.scene.unit_settings.system = 'METRIC'
-    bpy.context.scene.unit_settings.scale_length = 1
 
     numfiles = 0
     for file in source_dir.iterdir():
@@ -519,14 +524,13 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
             if action != armature.animation_data.action:
                 bpy.data.actions.remove(action, do_unlink=True)
 
+        
         # store file to disk
         output_file = dest_dir.joinpath(file.stem + ".fbx")
         bpy.ops.export_scene.fbx(filepath=str(output_file),
                                  use_selection=False,
-                                 apply_unit_scale=False,
+                                 apply_scale_options='FBX_SCALE_ALL',
                                  add_leaf_bones=add_leaf_bones,
-                                 axis_forward='-Z',
-                                 axis_up='Y',
                                  mesh_smooth_type='FACE')
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
