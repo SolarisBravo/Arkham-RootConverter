@@ -245,7 +245,7 @@ class OBJECT_OT_ConvertSingleStepwise(bpy.types.Operator):
                 use_rotation = mixamo.use_rotation,
                 scale = mixamo.scale,
                 restoffset = mixamo.restoffset,
-                hipname = mixamo.hipname.decode('UTF-8'),
+                hipname = mixamo.hipname,
                 fixbind = mixamo.fixbind,
                 apply_rotation = mixamo.apply_rotation,
                 apply_scale = mixamo.apply_scale,
