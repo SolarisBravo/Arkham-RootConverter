@@ -193,7 +193,7 @@ class OBJECT_OT_ConvertSingle(bpy.types.Operator):
             use_x = mixamo.use_x,
             use_y = mixamo.use_y,
             use_z = mixamo.use_z,
-            on_ground = mixamo.on_ground,
+            on_ground = True,
             use_rotation = mixamo.use_rotation,
             scale = mixamo.scale,
             restoffset = mixamo.restoffset,
@@ -203,7 +203,7 @@ class OBJECT_OT_ConvertSingle(bpy.types.Operator):
             apply_scale = mixamo.apply_scale,
             quaternion_clean_pre=mixamo.quaternion_clean_pre,
             quaternion_clean_post=mixamo.quaternion_clean_post,
-            foot_bone_workaround=mixamo.foot_bone_workaround)
+            foot_bone_workaround=False)
 
         try:
             for status in mixamoconv_iterator:
