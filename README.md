@@ -15,12 +15,12 @@ Forked from Enzio Probst's Mixamo converter.
 ## Usage
 The Addon UI is located in the UI properties panel, which can be opened using the hotkey "N".
 
-### Options: 
+## Options: 
 
-##### [On Ground]:
+#### [On Ground]:
 Only rotation along the Up Axis is transfered to the root
 
-##### [Use Z]:
+#### [Use Z]:
 Enable for jumping/climbing/anything with a vertical dimension - disable this if you encounter issues with characters dropping below the floor or floating.
 
 #### [Use X] [Use Y]:
