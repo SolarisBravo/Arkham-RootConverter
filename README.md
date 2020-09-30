@@ -16,12 +16,12 @@ Forked from Enzio Probst's Mixamo converter.
 The Addon UI is located in the UI properties panel, which can be opened using the hotkey "N".
 
 ### Options: 
+
 ##### [On Ground]:
 Only rotation along the Up Axis is transfered to the root
 
 ##### [Use Z]:
-the root bone can go below the Ground
-this will result in wierd behaviour if one Big Collider is used for the Character in Unreal
+Enable this for jumping/climbing/anything with a vertical dimension. Would reccomend disabling for all others, although it won't cause any issues unless the animation is cancelled mid-playback.
 
 #### [Use X] [Use Y]:
 Those can be disabled to prevent movement of root on groundplane.
