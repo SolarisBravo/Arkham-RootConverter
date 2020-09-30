@@ -1,4 +1,4 @@
-# Arkham Animation Converter
+# Batman: Arkham - Root Motion Converter
 This plugin generates proper root motion tracks for animations extracted from Rocksteady's Batman: Arkham series, allowing them to function properly within Unreal Engine 4
 Blender 2.90+ required.
 
