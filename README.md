@@ -7,6 +7,7 @@ Forked from Enzio Probst's Mixamo converter.
 ## Notes
 * If you're having issues where the mesh appears "squished", make sure you run the base mesh through my converter.
 * Inside UE4, *always* set "Root Motion Root Lock" to "Anim First Frame".
+* Certain animations (running, long-range takedowns) do not work properly when batch converted - I'll fix this as soon as I figure out what the issue is, but in the meantime I would reccomend using "convert single" whenever you encounter issues with the character "gliding" around rapidly.
 
 ## Installation
 * Download Blender 2.90 from https://www.blender.org/download/
