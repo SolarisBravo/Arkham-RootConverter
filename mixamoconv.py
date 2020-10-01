@@ -440,8 +440,7 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
                 continue
             numfiles += batch_hip_to_root(str(source_dir.joinpath(file.stem)), str(dest_dir.joinpath(file.stem)),
                       use_x=use_x, use_y=use_y, use_z=use_z, on_ground=on_ground, use_rotation=use_rotation, scale=scale,
-                      restoffset=restoffset, hipname=hipname, fixbind=fixbind, apply_rotation=apply_rotation, apply_scale=apply_scale,
-                      b_remove_namespace=b_remove_namespace, b_unreal_bones=b_unreal_bones, add_leaf_bones=False, knee_offset=knee_offset, ignore_leaf_bones=False, automatic_bone_orientation=False, quaternion_clean_pre=quaternion_clean_pre, quaternion_clean_post=quaternion_clean_post, foot_bone_workaround=foot_bone_workaround, discover_recursive=discover_recursive)
+                      restoffset=restoffset, hipname=hipname, fixbind=fixbind, apply_rotation=apply_rotation, apply_scale=apply_scale, quaternion_clean_pre=quaternion_clean_pre, quaternion_clean_post=quaternion_clean_post, foot_bone_workaround=foot_bone_workaround, discover_recursive=discover_recursive)
         file_ext = file.suffix
         file_loader = {
             ".FBX": lambda filename: bpy.ops.import_scene.fbx(
