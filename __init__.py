@@ -145,7 +145,7 @@ class MixamoPropertyGroup(bpy.types.PropertyGroup):
     apply_rotation: bpy.props.BoolProperty(
         name="Apply Rotation",
         description="Applies rotation during conversion to prevent rotation and scaling issues",
-        default=True)
+        default=False)
     apply_scale: bpy.props.BoolProperty(
         name="Apply Scale",
         description="Applies scale during conversion to prevent rotation and scaling issues",
