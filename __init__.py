@@ -333,14 +333,14 @@ class OBJECT_OT_ConvertBatch(bpy.types.Operator):
             fixbind = mixamo.fixbind,
             apply_rotation = mixamo.apply_rotation,
             apply_scale = mixamo.apply_scale,
-            b_remove_namespace = False,
-            b_unreal_bones = False,
-            add_leaf_bones = mixamo.add_leaf_bones,
-            knee_offset = mixamo.knee_offset,
-            ignore_leaf_bones = mixamo.ignore_leaf_bones,
-            automatic_bone_orientation = mixamo.automatic_bone_orientation,
-            quaternion_clean_pre=mixamo.quaternion_clean_pre,
-            quaternion_clean_post=mixamo.quaternion_clean_post,
+            #b_remove_namespace = False,
+            #b_unreal_bones = False,
+            #add_leaf_bones = mixamo.add_leaf_bones,
+            #knee_offset = mixamo.knee_offset,
+            #ignore_leaf_bones = mixamo.ignore_leaf_bones,
+            #automatic_bone_orientation = mixamo.automatic_bone_orientation,
+            quaternion_clean_pre=True,
+            quaternion_clean_post=True,
             foot_bone_workaround=False,
             discover_recursive=mixamo.discover_recursive)
         if numfiles == -1:
@@ -366,8 +366,6 @@ class MIXAMOCONV_VIEW_3D_PT_mixamoconv(bpy.types.Panel):
         # Options for how to do the conversion
         row = box.row()
         row.prop(scene.mixamo, "use_z", toggle =True)
-        if scene.mixamo.use_z:
-            row.prop(scene.mixamo, "on_ground", toggle =True)
         row = box.row()
         row.prop(scene.mixamo, "use_rotation", toggle = True)
         # Button for conversion of single Selected rig

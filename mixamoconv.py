@@ -422,9 +422,8 @@ def hip_to_root(armature, use_x=True, use_y=True, use_z=True, on_ground=True, us
     return 1
 
 
-def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0,
-                      restoffset=(0, 0, 0), hipname='', fixbind=True, apply_rotation=True, apply_scale=False,
-                      b_remove_namespace=False, b_unreal_bones=False, add_leaf_bones=False, knee_offset=(0, 0, 0), ignore_leaf_bones=True, automatic_bone_orientation=True, quaternion_clean_pre=True, quaternion_clean_post=True, foot_bone_workaround=False, discover_recursive=True):
+def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, on_ground=True, use_rotation=True, scale=1.0, restoffset=(0, 0, 0), 
+                      hipname='', fixbind=True, apply_rotation=True, apply_scale=False, quaternion_clean_pre=True, quaternion_clean_post=True, foot_bone_workaround=False, discover_recursive=True):
     """Batch Convert MixamoRigs"""
     
     source_dir = Path(source_dir)
@@ -442,7 +441,7 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
             numfiles += batch_hip_to_root(str(source_dir.joinpath(file.stem)), str(dest_dir.joinpath(file.stem)),
                       use_x=use_x, use_y=use_y, use_z=use_z, on_ground=on_ground, use_rotation=use_rotation, scale=scale,
                       restoffset=restoffset, hipname=hipname, fixbind=fixbind, apply_rotation=apply_rotation, apply_scale=apply_scale,
-                      b_remove_namespace=b_remove_namespace, b_unreal_bones=b_unreal_bones, add_leaf_bones=add_leaf_bones, knee_offset=knee_offset, ignore_leaf_bones=ignore_leaf_bones, automatic_bone_orientation=automatic_bone_orientation, quaternion_clean_pre=quaternion_clean_pre, quaternion_clean_post=quaternion_clean_post, foot_bone_workaround=foot_bone_workaround, discover_recursive=discover_recursive)
+                      b_remove_namespace=b_remove_namespace, b_unreal_bones=b_unreal_bones, add_leaf_bones=False, knee_offset=knee_offset, ignore_leaf_bones=False, automatic_bone_orientation=False, quaternion_clean_pre=quaternion_clean_pre, quaternion_clean_post=quaternion_clean_post, foot_bone_workaround=foot_bone_workaround, discover_recursive=discover_recursive)
         file_ext = file.suffix
         file_loader = {
             ".FBX": lambda filename: bpy.ops.import_scene.fbx(
@@ -457,9 +456,9 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
                 use_anim=True, anim_offset=1.0,
                 use_custom_props=True,
                 use_custom_props_enum_as_string=True,
-                ignore_leaf_bones=ignore_leaf_bones,
+                ignore_leaf_bones=False,
                 force_connect_children=False,
-                automatic_bone_orientation=automatic_bone_orientation,
+                automatic_bone_orientation=False,
                 primary_bone_axis='Y',
                 secondary_bone_axis='X',
                 use_prepost_rot=True),
@@ -494,15 +493,6 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
         # import FBX
         file_loader[file_ext](file)
 
-        # namespace removal
-        if b_remove_namespace:
-            for obj in bpy.context.selected_objects:
-                remove_namespace(obj)
-        # namespace removal
-        elif b_unreal_bones:
-            for obj in bpy.context.selected_objects:
-                rename_bones(obj, 'unreal')
-
         def getArmature(objects):
             for a in objects:
                 if a.type == 'ARMATURE':
@@ -522,11 +512,6 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
             log.error("ERROR hip_to_root raised %s when processing %s" % (str(e), file.name))
             return -1
 
-
-        if (Vector(knee_offset).length > 0.0):
-            apply_kneefix(armature, knee_offset,
-                          bonenames=bpy.context.scene.mixamo.knee_bones.split(','))
-
         # remove newly created orphan actions
         for action in bpy.data.actions:
             if action != armature.animation_data.action:
@@ -540,7 +525,7 @@ def batch_hip_to_root(source_dir, dest_dir, use_x=True, use_y=True, use_z=True, 
         bpy.ops.export_scene.fbx(filepath=str(output_file),
                                  use_selection=False,
                                  apply_scale_options='FBX_SCALE_ALL',
-                                 add_leaf_bones=add_leaf_bones,
+                                 add_leaf_bones=False,
                                  mesh_smooth_type='FACE')
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
